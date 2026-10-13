@@ -1,0 +1,209 @@
+Parse (Pakistan Automated Risk and Security Engine)
+
+Goals:
+Automatically collects security-related information from Pakistani sources (news, social media, government announcements, economic data)
+Uses AI to read and understand that information (extract incidents, locations, people, organizations)
+Tracks entities over time (who is involved in what, where, how often)
+Detects patterns (sudden spikes, changing narratives, unusual cross-source activity)
+Alerts analysts through a dashboard with maps and charts
+
+
+Problem:
+1) infromation is scattered across many Places.
+2) you read everything manually.
+3) it take more time.
+4) Real news or fake news not confirmed.
+
+Solution:
+PARSE automates the watching and reading so the analyst can focus on decision-making instead of data collection.
+
+Objective 1: Multi-Source Data Ingestion Pipeline:
+Build a system that continuously crawls and collect data from real time data from:
+Pakistan News. 
+Social Media. (Facebook, Reddit, Threads, Telegram)
+ISPR and goverment. 
+Economics data feeds.  ( live capital markets data (Stocks, Commodities, Forex)  
+it used for 
+Macroeconomic Data (Inflation, GDP, Interbank FX)
+• SBP EasyData (State Bank of Pakistan)
+• Open Data Pakistan (opendata.com.pk
+
+What you must build:
+1) Web scrapers (Scrapy / BeautifulSoup)
+2) API integrations
+3) Scheduled jobs (Celery)
+4) Storage pipeline (PostgreSQL)
+
+
+Objective 2: LLM-Based Information Extraction Engine:
+Once you have raw text, you must extract structured information
+What you must build:
+Google Gemini API integration for extraction
+Multilingual BERT for NER
+spaCy for NLP preprocessing
+Incident structuring logic
+
+Objective 3: Entity Resolution and Profiling System
+The same person/organization/location may appear with different names across sources:
+"TTP" vs "Tehreek-e-Taliban Pakistan" vs "Tehrik-i-Taliban"
+"Karachi" vs "KHI"
+solution:What you must build:
+Custom entity resolution engine
+Entity profile database schema
+Behavioral tracking logic
+
+Objective 4: Pattern Recognition and Early Warning Module
+
+Activity spikes — sudden increase in incidents in a region
+Narrative shifts — change in how media talks about something
+Cross-source anomalies — unusual pattern appearing across multiple sources
+
+What you must build:
+Historical baseline calculation
+Anomaly detection algorithms
+Alert generation logic
+
+How Parse Worked?
+STEP 1: DATA COLLECTION
+   ↓
+Sources: Dawn, Geo, Express Tribune, The News, Twitter/X,
+         Telegram, Facebook, ISPR, Government sites, Economic feeds
+   ↓
+Crawlers (Scrapy/BeautifulSoup) + APIs collect raw text
+   ↓
+STEP 2: DATA PREPROCESSING
+   ↓
+Clean text, remove duplicates, detect language (English/Urdu/Roman Urdu)
+   ↓
+STEP 3: LLM-BASED EXTRACTION
+   ↓
+Google Gemini API reads text → extracts incident info
+   ↓
+STEP 4: MULTILINGUAL NER
+   ↓
+Multilingual BERT + spaCy identify entities (persons, orgs, locations)
+   ↓
+STEP 5: INCIDENT STRUCTURING
+   ↓
+Store as structured record: {type, location, entities, time, source}
+   ↓
+STEP 6: ENTITY RESOLUTION
+   ↓
+Custom engine matches "TTP" = "Tehreek-e-Taliban Pakistan"
+   ↓
+STEP 7: ENTITY PROFILING
+   ↓
+Build behavioral profile per entity (frequency, context, geography)
+   ↓
+STEP 8: PATTERN RECOGNITION
+   ↓
+Compare current data vs historical baseline
+Detect: activity spikes, narrative shifts, cross-source anomalies
+   ↓
+STEP 9: EARLY WARNING
+   ↓
+Generate alert when pattern crosses threshold
+   ↓
+STEP 10: DASHBOARD & VISUALIZATION
+   ↓
+React.js + MapLibre GL JS + Recharts show results to analyst
+
+
+What Are the Requirements to Build PARSE?
+
+News source: Dawn, Geo, Express Tribune, The News
+Social media: Twitter/X, Telegram, Facebook
+Government sources	: ISPR websites, government websites
+Economic data: Relevant economic feeds
+Language:	English, Urdu, Roman Urdu
+
+
+2) Technical System:
+Language: Python 3.x,Everything backend
+Crawling: Scrapy / BeautifulSoup,Web scraping
+API Integration: REST APIs,Social media, economic data
+Task Queue: Celery + Redis,Background jobs, scheduling
+Backend:FastAPI,REST API for frontend
+LLM: Google Gemini API,Information extraction
+NLP: Multilingual BERT,Multilingual NER
+NLP: spaCy,Text processing
+Annotation:Doccano,Manual labeling tool
+Database:	PostgreSQL,Structured storage
+Frontend:	React.js and Dashboard UI
+Maps: MapLibre GL JS,Geographic visualization
+Charts: Recharts,Analytical charts
+DevOps: Docker / Docker Compose,Containerization
+CI/CD: GitHub Actions,Automation
+Version Control: Git / GitHub,Code management
+Cloud: Oracle OCI Compute,Hosting
+Testing: Pytest,Unit + integration tests
+
+
+3) Human Requirements
+
+Manual annotation: You must label Pakistani security news to train/evaluate NER
+Domain knowledge: Understanding Pakistani security context
+
+
+4) Evaluation Requirements
+Metric:	What It Measures
+Precision:	Of extracted incidents, how many are correct?
+Recall :	Of real incidents, how many did you catch?
+F1-score	: Balance of precision + recall
+Retrospective early-warning evaluation :	Would PARSE have warned in time on historical events?
+Prediction lead-time	: How many days before an event could PARSE have alerted?
+
+
+Functional Components / Major Modules
+Multi-source Data Ingestion — Crawling and aggregating data from specified sources.
+
+Data Processing and NLP — Preprocessing and natural language processing of raw text.
+
+Security Incident Extraction — Identification and structuring of security incidents.
+
+Multilingual Named Entity Recognition — Identification of entities across languages.
+
+Entity Resolution — Determining when different references refer to the same entity.
+
+Entity Profiling — Maintaining behavioral profiles of tracked entities.
+
+Pattern Recognition — Detecting activity spikes, narrative shifts, and cross-source anomalies.
+
+Early Warning and Alerts — Generating alerts for analysts based on detected patterns.
+
+Dashboard and Visualization — Presenting results through a web-based interface.
+
+Data Storage and API Layer — Storing structured data and exposing it through APIs.
+
+
+
+
+8. Scope of the Project
+
+PARSE covers the following areas, derived strictly from the features and data sources already specified in the proposal:
+Monitoring of Pakistani news sources
+Monitoring of specified social media platforms
+Monitoring of ISPR and government announcements
+Inclusion of relevant economic indicators
+Extraction of security incidents from unstructured text
+Identification and resolution of entities
+Maintenance of entity profiles
+Recognition of patterns and anomalies
+Generation of early-warning alerts
+Dashboard and geographic visualization
+
+
+The 10 Features of PARSE
+#	Feature	What It Does
+1	Multi-Source Data Ingestion	Crawl news sites, Telegram, government sources
+2	Data Preprocessing	Clean text, detect language (English/Urdu/Roman Urdu)
+3	LLM-Based Information Extraction	Use Gemini to extract incidents from raw text
+4	Multilingual NER	Identify persons, organizations, locations using BERT + spaCy
+5	Incident Structuring	Store extracted data as structured records
+6	Entity Resolution	Match aliases (TTP = Tehreek-e-Taliban Pakistan)
+7	Entity Profiling	Build behavioral profiles for tracked entities
+8	Pattern Recognition	Detect activity spikes, narrative shifts, cross-source anomalies
+9	Early Warning & Alerts	Generate analyst alerts when thresholds are crossed
+10	Dashboard & Visualization	React frontend with maps and charts
+
+
